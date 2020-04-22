@@ -10,10 +10,8 @@ Trained models with different input resolutions:
 
 |Model| MOTA | IDF1 | IDS | FP | FN | FPS | Link |
 |-----|------|------|-----|----|----|-----|------|
-|JDE-1088x608| 74.8|	67.3|	1189| 5558|	21505|	22.2| [[Google]]
-(https://drive.google.com/open?id=1Kl6YB7P0pOvAMeuF4LHgOVWHS2pOVcSy)|
-|JDE-864x480| 70.8|	65.8|	1279|	5653|	25806|	30.3| [[Google]]
-(https://drive.google.com/open?id=15iaD2ktPLuFdskVLXhbsPVthHjW1-QHf) |
+|JDE-1088x608| 74.8|	67.3|	1189| 5558|	21505|	22.2| [[Google]](https://drive.google.com/open?id=1Kl6YB7P0pOvAMeuF4LHgOVWHS2pOVcSy)|
+|JDE-864x480| 70.8|	65.8|	1279|	5653|	25806|	30.3| [[Google]](https://drive.google.com/file/d/15iaD2ktPLuFdskVLXhbsPVthHjW1-QHf/view?usp=sharing) |
 |JDE-576x320| 63.7|	63.3|	1307|	6657|	32794|	37.9|[[Google]](https://drive.google.com/file/d/1tUOeH2j7X0gw0OUC5L4APbALMcaTl0Cq/view?usp=sharing) |
 
 
