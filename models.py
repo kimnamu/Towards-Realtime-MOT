@@ -143,7 +143,7 @@ class YOLOLayer(nn.Module):
         if self.img_size != img_size:
             create_grids(self, img_size, nGh, nGw)
 
-            if p.is_cuda:
+            if torch.cuda.is_available():
                 self.grid_xy = self.grid_xy.cuda()
                 self.anchor_wh = self.anchor_wh.cuda()
 
@@ -156,10 +156,11 @@ class YOLOLayer(nn.Module):
         # Training
         if targets is not None:
             if test_emb:
-                tconf, tbox, tids = build_targets_max(targets, self.anchor_vec.cuda(), self.nA, self.nC, nGh, nGw)
+                tconf, tbox, tids = build_targets_max(targets, self.anchor_vec.cuda() if torch.cuda.is_available() else self.anchor_vec, self.nA, self.nC, nGh, nGw)
             else:
-                tconf, tbox, tids = build_targets_thres(targets, self.anchor_vec.cuda(), self.nA, self.nC, nGh, nGw)
-            tconf, tbox, tids = tconf.cuda(), tbox.cuda(), tids.cuda()
+                tconf, tbox, tids = build_targets_thres(targets, self.anchor_vec.cuda() if torch.cuda.is_available() else self.anchor_vec, self.nA, self.nC, nGh, nGw)
+            if torch.cuda.is_available():
+                tconf, tbox, tids = tconf.cuda(), tbox.cuda(), tids.cuda()
             mask = tconf > 0
 
             # Compute losses
@@ -172,7 +173,7 @@ class YOLOLayer(nn.Module):
                 FT = torch.cuda.FloatTensor if p_conf.is_cuda else torch.FloatTensor
                 lbox, lconf =  FT([0]), FT([0])
             lconf =  self.SoftmaxLoss(p_conf, tconf)
-            lid = torch.Tensor(1).fill_(0).squeeze().cuda()
+            lid = torch.Tensor(1).fill_(0).squeeze().cuda() if torch.cuda.is_available() else torch.Tensor(1).fill_(0).squeeze()
             emb_mask,_ = mask.max(1)
             
             # For convenience we use max(1) to decide the id, TODO: more reseanable strategy
@@ -184,7 +185,7 @@ class YOLOLayer(nn.Module):
             
             if  test_emb:
                 if np.prod(embedding.shape)==0  or np.prod(tids.shape) == 0:
-                    return torch.zeros(0, self.emb_dim+1).cuda()
+                    return torch.zeros(0, self.emb_dim+1).cuda() if torch.cuda.is_available() else torch.zeros(0, self.emb_dim+1)
                 emb_and_gt = torch.cat([embedding, tids.float()], dim=1)
                 return emb_and_gt
             
@@ -204,7 +205,7 @@ class YOLOLayer(nn.Module):
             p_emb = F.normalize(p_emb.unsqueeze(1).repeat(1,self.nA,1,1,1).contiguous(), dim=-1)
             #p_emb_up = F.normalize(shift_tensor_vertically(p_emb, -self.shift[self.layer]), dim=-1)
             #p_emb_down = F.normalize(shift_tensor_vertically(p_emb, self.shift[self.layer]), dim=-1)
-            p_cls = torch.zeros(nB,self.nA,nGh,nGw,1).cuda()               # Temp
+            p_cls = torch.zeros(nB,self.nA,nGh,nGw,1).cuda() if torch.cuda.is_available() else torch.zeros(nB,self.nA,nGh,nGw,1) # Temp
             p = torch.cat([p_box, p_conf, p_cls, p_emb], dim=-1)
             #p = torch.cat([p_box, p_conf, p_cls, p_emb, p_emb_up, p_emb_down], dim=-1)
             p[..., :4] = decode_delta_map(p[..., :4], self.anchor_vec.to(p))
@@ -275,7 +276,7 @@ class Darknet(nn.Module):
         if is_training:
             self.losses['nT'] /= 3 
             output = [o.squeeze() for o in output]
-            return sum(output), torch.Tensor(list(self.losses.values())).cuda()
+            return sum(output), torch.Tensor(list(self.losses.values())).cuda() if torch.cuda.is_available() else torch.Tensor(list(self.losses.values()))
         elif self.test_emb:
             return torch.cat(output, 0)
         return torch.cat(output, 1)

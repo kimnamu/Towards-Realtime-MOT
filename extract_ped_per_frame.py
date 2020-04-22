@@ -36,7 +36,8 @@ def extract_ped_per_frame(
         load_darknet_weights(model, weights)
 
     model = torch.nn.DataParallel(model)
-    model.cuda().eval()
+    if torch.cuda.is_available():
+        model.cuda().eval()
 
     vlist = os.listdir(input_root)
     vlist = [osp.join(input_root, v, 'img1') for v in vlist]
@@ -50,7 +51,7 @@ def extract_ped_per_frame(
             frame_ground_id = frame_path.split('/')[-1].split('.')[0]
             if frame_id % 20 == 0:
                 print('Processing frame {} of video {}'.format(frame_id, frame_path))
-            blob = torch.from_numpy(frame).cuda().unsqueeze(0)
+            blob = torch.from_numpy(frame).cuda().unsqueeze(0) if torch.cuda.is_available() else torch.from_numpy(frame).unsqueeze(0)
             pred = model(blob)
             pred = pred[pred[:,:,4] > conf_thres]
             if len(pred) > 0:

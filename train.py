@@ -60,7 +60,10 @@ def train(
 
         # Load weights to resume from
         model.load_state_dict(checkpoint['model'])
-        model.cuda().train()
+        if cuda.torch.is_available():
+            model.cuda().train()
+        else:
+            model.train()
 
         # Set optimizer
         optimizer = torch.optim.SGD(filter(lambda x: x.requires_grad, model.parameters()), lr=opt.lr, momentum=.9)
@@ -80,8 +83,10 @@ def train(
             load_darknet_weights(model, osp.join(weights_from, 'yolov3-tiny.conv.15'))
             cutoff = 15
 
-        model.cuda().train()
-
+        if cuda.torch.is_available():
+            model.cuda().train()
+        else:
+            model.train()
         # Set optimizer
         optimizer = torch.optim.SGD(filter(lambda x: x.requires_grad, model.parameters()), lr=opt.lr, momentum=.9,
                                     weight_decay=1e-4)
@@ -125,7 +130,7 @@ def train(
                     g['lr'] = lr
 
             # Compute loss, compute gradient, update parameters
-            loss, components = model(imgs.cuda(), targets.cuda(), targets_len.cuda())
+            loss, components = model(imgs.cuda() if torch.cuda.is_available() else imgs, targets.cuda() if torch.cuda.is_available() else targets, targets_len.cuda() if torch.cuda.is_available() else targets_len)
             components = torch.mean(components.view(-1, 5), dim=0)
             loss = torch.mean(loss)
             loss.backward()

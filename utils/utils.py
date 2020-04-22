@@ -233,14 +233,14 @@ def build_targets_max(target, anchor_wh, nA, nC, nGh, nGw):
     """
     nB = len(target)  # number of images in batch
 
-    txy = torch.zeros(nB, nA, nGh, nGw, 2).cuda()  # batch size, anchors, grid size
-    twh = torch.zeros(nB, nA, nGh, nGw, 2).cuda()
-    tconf = torch.LongTensor(nB, nA, nGh, nGw).fill_(0).cuda()
-    tcls = torch.ByteTensor(nB, nA, nGh, nGw, nC).fill_(0).cuda()  # nC = number of classes
-    tid = torch.LongTensor(nB, nA, nGh, nGw, 1).fill_(-1).cuda() 
+    txy = torch.zeros(nB, nA, nGh, nGw, 2).cuda() if torch.cuda.is_available() else torch.zeros(nB, nA, nGh, nGw, 2) # batch size, anchors, grid size
+    twh = torch.zeros(nB, nA, nGh, nGw, 2).cuda() if torch.cuda.is_available() else torch.zeros(nB, nA, nGh, nGw, 2)
+    tconf = torch.LongTensor(nB, nA, nGh, nGw).fill_(0).cuda() if torch.cuda.is_available() else torch.LongTensor(nB, nA, nGh, nGw).fill_(0)
+    tcls = torch.ByteTensor(nB, nA, nGh, nGw, nC).fill_(0).cuda() if torch.cuda.is_available() else torch.ByteTensor(nB, nA, nGh, nGw, nC).fill_(0)  # nC = number of classes
+    tid = torch.LongTensor(nB, nA, nGh, nGw, 1).fill_(-1).cuda() if torch.cuda.is_available() else torch.LongTensor(nB, nA, nGh, nGw, 1).fill_(-1)
     for b in range(nB):
         t = target[b]
-        t_id = t[:, 1].clone().long().cuda()
+        t_id = t[:, 1].clone().long().cuda() if torch.cuda.is_available() else t[:, 1].clone().long()
         t = t[:,[0,2,3,4,5]]
         nTb = len(t)  # number of targets
         if nTb == 0:
@@ -319,12 +319,12 @@ def build_targets_thres(target, anchor_wh, nA, nC, nGh, nGw):
     nB = len(target)  # number of images in batch
     assert(len(anchor_wh)==nA)
 
-    tbox = torch.zeros(nB, nA, nGh, nGw, 4).cuda()  # batch size, anchors, grid size
-    tconf = torch.LongTensor(nB, nA, nGh, nGw).fill_(0).cuda()
-    tid = torch.LongTensor(nB, nA, nGh, nGw, 1).fill_(-1).cuda() 
+    tbox = torch.zeros(nB, nA, nGh, nGw, 4).cuda() if torch.cuda.is_available() else torch.zeros(nB, nA, nGh, nGw, 4) # batch size, anchors, grid size
+    tconf = torch.LongTensor(nB, nA, nGh, nGw).fill_(0).cuda() if torch.cuda.is_available() else torch.LongTensor(nB, nA, nGh, nGw).fill_(0)
+    tid = torch.LongTensor(nB, nA, nGh, nGw, 1).fill_(-1).cuda() if torch.cuda.is_available() else torch.LongTensor(nB, nA, nGh, nGw, 1).fill_(-1)
     for b in range(nB):
         t = target[b]
-        t_id = t[:, 1].clone().long().cuda()
+        t_id = t[:, 1].clone().long().cuda() if torch.cuda.is_available else t[:, 1].clone().long()
         t = t[:,[0,2,3,4,5]]
         nTb = len(t)  # number of targets
         if nTb == 0:
@@ -373,7 +373,8 @@ def build_targets_thres(target, anchor_wh, nA, nC, nGh, nGw):
 def generate_anchor(nGh, nGw, anchor_wh):
     nA = len(anchor_wh)
     yy, xx =torch.meshgrid(torch.arange(nGh), torch.arange(nGw))
-    xx, yy = xx.cuda(), yy.cuda()
+    if torch.cuda.is_available():
+        xx, yy = xx.cuda(), yy.cuda()
 
     mesh = torch.stack([xx, yy], dim=0)                                              # Shape 2, nGh, nGw
     mesh = mesh.unsqueeze(0).repeat(nA,1,1,1).float()                                # Shape nA x 2 x nGh x nGw
