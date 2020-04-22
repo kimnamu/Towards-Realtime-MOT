@@ -1,14 +1,15 @@
+# Social-Distance-COVID19
+
 ## Notes
 * This codes forked from [Zhongdao/Towards-Realtime-MOT](https://github.com/Zhongdao/Towards-Realtime-MOT) <br/>
 * All the posts below have been **rewritten** to fit [this repository](https://github.com/kimnamu/social-distance-COVID19)
 
-# Social-Distance-COVID19
-**NEWS:** 
+## NEWS
 - **[2020.04.22]** Forked from Zhongdao/Towards-Realtime-MOT.<br/>
 **[Below is the update from the forked repository]**
-- **[2020.01.29]** More models uploaded! The fastest one runs at around **38 FPS!**. 
-- **[2019.10.11]** Training and evaluation data uploaded! Please see [DATASET_ZOO.md](https://github.com/Zhongdao/Towards-Realtime-MOT/blob/master/DATASET_ZOO.md) for details.
-- **[2019.10.01]** Demo code and pre-trained model released!
+- [2020.01.29] More models uploaded! The fastest one runs at around 38 FPS!. 
+- [2019.10.11] Training and evaluation data uploaded! Please see [DATASET_ZOO.md](https://github.com/Zhongdao/Towards-Realtime-MOT/blob/master/DATASET_ZOO.md) for details.
+- [2019.10.01] Demo code and pre-trained model released!
 
 ## Introduction
 This repo is the a codebase of the Joint Detection and Embedding (JDE) model. JDE is a fast and high-performance multiple-object tracker that learns the object detection task and appearance embedding task simutaneously in a shared neural network. Techical details are described in our [arXiv preprint paper](https://arxiv.org/pdf/1909.12605v1.pdf). By using this repo, you can simply achieve **MOTA 64%+** on the "private" protocol of [MOT-16 challenge](https://motchallenge.net/tracker/JDE), and with a near real-time speed at **22~38 FPS** (Note this speed is for the entire system, including the detection step! ) .
@@ -22,8 +23,6 @@ We hope this repo will help researches/engineers to develop more practical MOT s
 * [py-motmetrics](https://github.com/cheind/py-motmetrics) (`pip install motmetrics`)
 * cython-bbox (`pip install cython_bbox`)
 * (Optional) ffmpeg (used in the video demo)
-* (Optional) [syncbn](https://github.com/ytoon/Synchronized-BatchNorm-PyTorch) (compile and place it under utils/syncbn, or simply replace with nn.BatchNorm [here](https://github.com/Zhongdao/Towards-Realtime-MOT/blob/master/models.py#L12))
-* ~~[maskrcnn-benchmark](https://github.com/facebookresearch/maskrcnn-benchmark) (Their GPU NMS is used in this project)~~
 
 
 ## Video Demo
