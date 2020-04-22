@@ -1,5 +1,6 @@
-This codes forked from [Zhongdao/Towards-Realtime-MOT](https://github.com/Zhongdao/Towards-Realtime-MOT) 
-All the posts below have been rewritten to fit [this repository](https://github.com/kimnamu/social-distance-COVID19)
+## Notes
+* This codes forked from [Zhongdao/Towards-Realtime-MOT](https://github.com/Zhongdao/Towards-Realtime-MOT) <br/>
+* All the posts below have been **rewritten** to fit [this repository](https://github.com/kimnamu/social-distance-COVID19)
 
 # Social-Distance-COVID19
 **NEWS:** 
