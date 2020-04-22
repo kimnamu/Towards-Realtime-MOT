@@ -1,14 +1,15 @@
-
 # Social-Distance-COVID19
-**NEWS:** 
-- **[2020.04.22]** Forked from Zhongdao/Towards-Realtime-MOT **. 
 
+## Notes
+* This codes forked from [Zhongdao/Towards-Realtime-MOT](https://github.com/Zhongdao/Towards-Realtime-MOT) <br/>
+* All the posts below have been **rewritten** to fit [this repository](https://github.com/kimnamu/social-distance-COVID19)
 
-# (Before Forked from Towards-Realtime-MOT)
-**NEWS:** 
-- **[2020.01.29]** More models uploaded! The fastest one runs at around **38 FPS!**. 
-- **[2019.10.11]** Training and evaluation data uploaded! Please see [DATASET_ZOO.md](https://github.com/Zhongdao/Towards-Realtime-MOT/blob/master/DATASET_ZOO.md) for details.
-- **[2019.10.01]** Demo code and pre-trained model released!
+## NEWS
+- **[2020.04.22]** Forked from Zhongdao/Towards-Realtime-MOT.<br/>
+- **[Previous news are the update from the forked repository]**
+  - [2020.01.29] More models uploaded! The fastest one runs at around 38 FPS!. 
+  - [2019.10.11] Training and evaluation data uploaded! Please see [DATASET_ZOO.md](https://github.com/Zhongdao/Towards-Realtime-MOT/blob/master/DATASET_ZOO.md) for details.
+  - [2019.10.01] Demo code and pre-trained model released!
 
 ## Introduction
 This repo is the a codebase of the Joint Detection and Embedding (JDE) model. JDE is a fast and high-performance multiple-object tracker that learns the object detection task and appearance embedding task simutaneously in a shared neural network. Techical details are described in our [arXiv preprint paper](https://arxiv.org/pdf/1909.12605v1.pdf). By using this repo, you can simply achieve **MOTA 64%+** on the "private" protocol of [MOT-16 challenge](https://motchallenge.net/tracker/JDE), and with a near real-time speed at **22~38 FPS** (Note this speed is for the entire system, including the detection step! ) .
@@ -22,8 +23,6 @@ We hope this repo will help researches/engineers to develop more practical MOT s
 * [py-motmetrics](https://github.com/cheind/py-motmetrics) (`pip install motmetrics`)
 * cython-bbox (`pip install cython_bbox`)
 * (Optional) ffmpeg (used in the video demo)
-* (Optional) [syncbn](https://github.com/ytoon/Synchronized-BatchNorm-PyTorch) (compile and place it under utils/syncbn, or simply replace with nn.BatchNorm [here](https://github.com/Zhongdao/Towards-Realtime-MOT/blob/master/models.py#L12))
-* ~~[maskrcnn-benchmark](https://github.com/facebookresearch/maskrcnn-benchmark) (Their GPU NMS is used in this project)~~
 
 
 ## Video Demo
@@ -34,6 +33,8 @@ Usage:
 ```
 python demo.py --input-video path/to/your/input/video --weights path/to/model/weights
                --output-format video --output-root path/to/output/root
+# example
+python demo.py --input-video ./dataset/test.avi --weights ./models/jde_1088x608_uncertainty.pt --output-format video --output-root ./output
 ```
 
 ## Docker demo example
@@ -56,9 +57,9 @@ Trained models with different input resolutions:
 
 |Model| MOTA | IDF1 | IDS | FP | FN | FPS | Link |
 |-----|------|------|-----|----|----|-----|------|
-|JDE-1088x608| 74.8|	67.3|	1189| 5558|	21505|	22.2| [[Google]](https://drive.google.com/open?id=1nlnuYfGNuHWZztQHXwVZSL_FvfE551pA) [[Baidu]](https://pan.baidu.com/s/1Ifgn0Y_JZE65_qSrQM2l-Q) |
-|JDE-864x480| 70.8|	65.8|	1279|	5653|	25806|	30.3| [[Google]](https://drive.google.com/open?id=1UKgkYrsV-59kYaHgWeJ70p5Mij3QWuFr) [[Baidu]](https://pan.baidu.com/s/1rBQ7DFjhLQbEq6JTJRntKA) |
-|JDE-576x320| 63.7|	63.3|	1307|	6657|	32794|	37.9|[[Google]](https://drive.google.com/file/d/1sca65sHMnxY7YJ89FJ6Dg3S3yAjbLdMz/view?usp=sharing) [[Baidu]](https://pan.baidu.com/s/1cCulbPNneIXOpRRjrTgJ4g) |
+|JDE-1088x608| 74.8|	67.3|	1189| 5558|	21505|	22.2| [[Google]](https://drive.google.com/open?id=1Kl6YB7P0pOvAMeuF4LHgOVWHS2pOVcSy)|
+|JDE-864x480| 70.8|	65.8|	1279|	5653|	25806|	30.3| [[Google]](https://drive.google.com/file/d/15iaD2ktPLuFdskVLXhbsPVthHjW1-QHf/view?usp=sharing) |
+|JDE-576x320| 63.7|	63.3|	1307|	6657|	32794|	37.9|[[Google]](https://drive.google.com/file/d/1tUOeH2j7X0gw0OUC5L4APbALMcaTl0Cq/view?usp=sharing) |
 
 The performance is tested on the MOT-16 training set, just for reference. Running speed is tested on an Nvidia Titan Xp GPU. For a more comprehensive comparison with other methods you can test on MOT-16 test set and submit a result to the [MOT-16 benchmark](https://motchallenge.net/results/MOT16/?det=Private). Note that the results should be submitted to the private detector track.
 
