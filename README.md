@@ -1,4 +1,10 @@
-# Towards-Realtime-MOT
+
+# Social-Distance-COVID19
+**NEWS:** 
+- **[2020.04.22]** Forked from Zhongdao/Towards-Realtime-MOT **. 
+
+
+# (Before Forked from Towards-Realtime-MOT)
 **NEWS:** 
 - **[2020.01.29]** More models uploaded! The fastest one runs at around **38 FPS!**. 
 - **[2019.10.11]** Training and evaluation data uploaded! Please see [DATASET_ZOO.md](https://github.com/Zhongdao/Towards-Realtime-MOT/blob/master/DATASET_ZOO.md) for details.
