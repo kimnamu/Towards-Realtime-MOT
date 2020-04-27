@@ -1,0 +1,8 @@
+opencv-python
+motmetrics
+numba
+matplotlib
+lap
+cython_bbox
+Cython
+sklearn
