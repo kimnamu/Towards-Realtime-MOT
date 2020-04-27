@@ -19,10 +19,13 @@ We hope this repo will help researches/engineers to develop more practical MOT s
 ## Requirements
 * Python 3.6
 * [Pytorch](https://pytorch.org) >= 1.2.0 
-* python-opencv
-* [py-motmetrics](https://github.com/cheind/py-motmetrics) (`pip install motmetrics`)
-* cython-bbox (`pip install cython_bbox`)
-* (Optional) ffmpeg (used in the video demo)
+* opencv-python (`pip install opencv-python`)
+* motmetrics (`pip install motmetrics`)
+* cython_bbox (`pip install cython_bbox`)
+* numba (`pip install numba`)
+* lap (`pip install lap`)
+* matplotlib (`pip install matplotlib`)
+* ffmpeg (`apt install ffmpeg`)
 
 
 ## Video Demo
@@ -89,14 +92,14 @@ See also the current SOTA on MOT16 private track, [FairMOT](https://github.com/i
 ## Acknowledgement
 A large portion of code is borrowed from [ultralytics/yolov3](https://github.com/ultralytics/yolov3) and [longcw/MOTDT](https://github.com/longcw/MOTDT), many thanks to their wonderful work!
 
-## Citation
-If you find this repo useful in your project or research, please consider citing it:
+
+
+## Error
+### ImportError: libSM.so.6: cannot open shared object file: No such file or directory
 ```
-@article{wang2019towards,
-  title={Towards Real-Time Multi-Object Tracking},
-  author={Wang, Zhongdao and Zheng, Liang and Liu, Yixuan and Wang, Shengjin},
-  journal={arXiv preprint arXiv:1909.12605},
-  year={2019}
-}
+sudo apt-get update
+sudo apt-get install -y libsm6 libxext6 libxrender-dev
+sudo pip install opencv-python
 ```
+
 
